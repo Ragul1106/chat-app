@@ -129,57 +129,65 @@ const ChatRoom = () => {
 
     return (
         <div className="chat-app-container">
-            <div className="chat-header">
-                <div className="d-flex align-items-center">
-                    <div className="chat-title">
-                        <h3>Chat Room</h3>
-                        <span className="online-count">{onlineUsers.length} online</span>
-                    </div>
-                </div>
+            <div className="chat-header fixed-top shadow-sm p-3" >
+                <div className="container-fluid">
+                    <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex align-items-center gap-3">
+                            <div className="chat-title">
+                                <h3 className="mb-0 fw-bold">Chat Room</h3>
+                                <span className="badge bg-primary ms-2">{onlineUsers.length} online</span>
+                            </div>
+                        </div>
 
-                <div className="chat-actions">
-                    <button
-                        className="btn btn-icon"
-                        onClick={() => setShowOnlineUsers(!showOnlineUsers)}
-                        title="Online users"
-                    >
-                        <IoMdNotifications size={20} />
-                    </button>
-                    <div className="dropdown">
-                        <button
-                            className="btn btn-icon"
-                            type="button"
-                            id="chatDropdownMenu"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            aria-label="Chat menu options"
-                        >
-                            <BsThreeDotsVertical size={20} />
-                        </button>
+                        <div className="d-flex gap-2">
+                            <button
+                                className="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                onClick={() => setShowOnlineUsers(!showOnlineUsers)}
+                                title="Online users"
+                                aria-label="Toggle online users"
+                                style={{ width: '36px', height: '36px' }}
+                            >
+                                <IoMdNotifications size={18} />
+                            </button>
 
-                        <ul
-                            className="dropdown-menu dropdown-menu-end list-unstyled shadow"
-                            aria-labelledby="chatDropdownMenu"
-                        >
-                            <li>
+                            <div className="dropdown">
                                 <button
-                                    className="dropdown-item d-flex align-items-center"
-                                    onClick={clearChat}
+                                    className="btn  btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    type="button"
+                                    id="chatDropdownMenu"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    aria-label="Chat menu options"
+                                    style={{ width: '36px', height: '36px' }}
                                 >
-                                    <FiTrash2 className="me-2" />
-                                    <span>Clear Chat</span>
+                                    <BsThreeDotsVertical size={18} />
                                 </button>
-                            </li>
-                            <li>
-                                <button
-                                    className="dropdown-item d-flex align-items-center"
-                                    onClick={signOutUser}
+
+                                <ul
+                                    className="dropdown-menu dropdown-menu-end shadow"
+                                    aria-labelledby="chatDropdownMenu"
                                 >
-                                    <FiLogOut className="me-2" />
-                                    <span>Sign Out</span>
-                                </button>
-                            </li>
-                        </ul>
+                                    <li>
+                                        <button
+                                            className="dropdown-item d-flex align-items-center"
+                                            onClick={clearChat}
+                                        >
+                                            <FiTrash2 className="me-2 text-danger" />
+                                            <span>Clear Chat</span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            className="dropdown-item d-flex align-items-center"
+                                            onClick={signOutUser}
+                                        >
+                                            <FiLogOut className="me-2" />
+                                            <span>Sign Out</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
