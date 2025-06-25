@@ -21,12 +21,10 @@ const ChatRoom = () => {
     const chatEndRef = useRef(null);
     const inputRef = useRef(null);
 
-    // Scroll to bottom when messages change
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    // Load messages
     useEffect(() => {
         const messagesRef = ref(db, 'messages');
         onValue(messagesRef, (snapshot) => {
@@ -38,7 +36,6 @@ const ChatRoom = () => {
         });
     }, []);
 
-    // Online presence tracking
     useEffect(() => {
         const userStatusRef = ref(db, `presence/${user.uid}`);
         set(userStatusRef, {
@@ -55,7 +52,6 @@ const ChatRoom = () => {
         });
     }, [user]);
 
-    // Typing indicator
     useEffect(() => {
         const typingRef = ref(db, 'typing');
         onValue(typingRef, (snapshot) => {
@@ -133,7 +129,6 @@ const ChatRoom = () => {
 
     return (
         <div className="chat-app-container">
-            {/* Header */}
             <div className="chat-header">
                 <div className="d-flex align-items-center">
                     <div className="chat-title">
@@ -141,63 +136,60 @@ const ChatRoom = () => {
                         <span className="online-count">{onlineUsers.length} online</span>
                     </div>
                 </div>
-                
+
                 <div className="chat-actions">
-                    <button 
-                        className="btn btn-icon" 
+                    <button
+                        className="btn btn-icon"
                         onClick={() => setShowOnlineUsers(!showOnlineUsers)}
                         title="Online users"
                     >
                         <IoMdNotifications size={20} />
                     </button>
                     <div className="dropdown">
-  {/* Dropdown trigger button */}
-  <button 
-    className="btn btn-icon" 
-    type="button" 
-    id="chatDropdownMenu" 
-    data-bs-toggle="dropdown" 
-    aria-expanded="false"
-    aria-label="Chat menu options"
-  >
-    <BsThreeDotsVertical size={20} />
-  </button>
-  
-  {/* Dropdown menu - hidden by default, shown on click */}
-  <ul 
-    className="dropdown-menu dropdown-menu-end list-unstyled shadow" 
-    aria-labelledby="chatDropdownMenu"
-  >
-    <li>
-      <button 
-        className="dropdown-item d-flex align-items-center" 
-        onClick={clearChat}
-      >
-        <FiTrash2 className="me-2" />
-        <span>Clear Chat</span>
-      </button>
-    </li>
-    <li>
-      <button 
-        className="dropdown-item d-flex align-items-center" 
-        onClick={signOutUser}
-      >
-        <FiLogOut className="me-2" />
-        <span>Sign Out</span>
-      </button>
-    </li>
-  </ul>
-</div>
+                        <button
+                            className="btn btn-icon"
+                            type="button"
+                            id="chatDropdownMenu"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            aria-label="Chat menu options"
+                        >
+                            <BsThreeDotsVertical size={20} />
+                        </button>
+
+                        <ul
+                            className="dropdown-menu dropdown-menu-end list-unstyled shadow"
+                            aria-labelledby="chatDropdownMenu"
+                        >
+                            <li>
+                                <button
+                                    className="dropdown-item d-flex align-items-center"
+                                    onClick={clearChat}
+                                >
+                                    <FiTrash2 className="me-2" />
+                                    <span>Clear Chat</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    className="dropdown-item d-flex align-items-center"
+                                    onClick={signOutUser}
+                                >
+                                    <FiLogOut className="me-2" />
+                                    <span>Sign Out</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            {/* Online Users Sidebar */}
             {showOnlineUsers && (
                 <div className="online-users-sidebar">
                     <div className="sidebar-header">
                         <h5>Online Users</h5>
-                        <button 
-                            className="btn btn-close" 
+                        <button
+                            className="btn btn-close"
                             onClick={() => setShowOnlineUsers(false)}
                         />
                     </div>
@@ -205,9 +197,9 @@ const ChatRoom = () => {
                         {onlineUsers.map((user, i) => (
                             <div key={i} className="user-item">
                                 {user.photoURL ? (
-                                    <img 
-                                        src={user.photoURL} 
-                                        alt={user.name} 
+                                    <img
+                                        src={user.photoURL}
+                                        alt={user.name}
                                         className="user-avatar"
                                     />
                                 ) : (
@@ -222,7 +214,6 @@ const ChatRoom = () => {
                 </div>
             )}
 
-            {/* Chat Messages */}
             <div className="chat-messages">
                 {messages.map((msg) => (
                     <div
@@ -232,9 +223,9 @@ const ChatRoom = () => {
                         {msg.uid !== user.uid && (
                             <div className="message-sender">
                                 {msg.photoURL ? (
-                                    <img 
-                                        src={msg.photoURL} 
-                                        alt={msg.user} 
+                                    <img
+                                        src={msg.photoURL}
+                                        alt={msg.user}
                                         className="user-avatar"
                                     />
                                 ) : (
@@ -248,8 +239,8 @@ const ChatRoom = () => {
                         <div className="message-content">
                             <div className="message-text">{msg.text}</div>
                             <div className="message-time">
-                                {msg.time ? formatDistanceToNow(new Date(msg.time), { 
-                                    addSuffix: true 
+                                {msg.time ? formatDistanceToNow(new Date(msg.time), {
+                                    addSuffix: true
                                 }) : ''}
                             </div>
                         </div>
@@ -258,7 +249,6 @@ const ChatRoom = () => {
                 <div ref={chatEndRef} />
             </div>
 
-            {/* Typing Indicator */}
             <div className="typing-indicator">
                 {getActiveTypers().length > 0 && (
                     <div className="typing-text">
@@ -267,12 +257,11 @@ const ChatRoom = () => {
                 )}
             </div>
 
-            {/* Message Input */}
             <div className="message-input-container">
                 <div className="emoji-picker-container">
                     {showEmojiPicker && (
                         <div className="emoji-picker">
-                            <EmojiPicker 
+                            <EmojiPicker
                                 onEmojiClick={handleEmojiClick}
                                 width="100%"
                                 height={300}
@@ -281,8 +270,8 @@ const ChatRoom = () => {
                     )}
                 </div>
                 <div className="input-group">
-                    <button 
-                        className="btn btn-emoji" 
+                    <button
+                        className="btn btn-emoji"
                         onClick={toggleEmojiPicker}
                         title="Emoji"
                     >
@@ -298,8 +287,8 @@ const ChatRoom = () => {
                         onKeyDown={handleKeyPress}
                         autoFocus
                     />
-                    <button 
-                        className="btn btn-send" 
+                    <button
+                        className="btn btn-send"
                         onClick={sendMessage}
                         disabled={!message.trim()}
                         title="Send"
